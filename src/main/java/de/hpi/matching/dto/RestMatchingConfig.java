@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 public class RestMatchingConfig {
-    @Getter(AccessLevel.PUBLIC) private long shopID;
+    @Getter(AccessLevel.PUBLIC) private long shopId;
     @Getter(AccessLevel.PUBLIC) private String offerTitle;
     @Getter(AccessLevel.PUBLIC) private String ean;
     @Getter(AccessLevel.PUBLIC) private String han;

@@ -20,6 +20,6 @@ public class MatchingController {
 
     @RequestMapping(value = "/match", method = RequestMethod.POST, produces = "application/json")
     public MatchingResponse startMatching(@RequestBody RestMatchingConfig restMatchingConfig){
-        return new MatchingResponse();
+        return service.match(restMatchingConfig.getShopId(), restMatchingConfig.getOfferTitle(), restMatchingConfig.getEan(), restMatchingConfig.getHan(), restMatchingConfig.getSku(), restMatchingConfig.getUrl(), restMatchingConfig.getPrice(), restMatchingConfig.getCategoryString());
     }
 }

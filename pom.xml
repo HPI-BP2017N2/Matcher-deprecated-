@@ -33,13 +33,31 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>RELEASE</version>
         </dependency>
 
+        <!-- RESTClient -->
+        <dependency>
+            <groupId>de.hpi</groupId>
+            <artifactId>RESTClient</artifactId>
+            <version>1.1</version>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
+    </build>
 
 
 </project>

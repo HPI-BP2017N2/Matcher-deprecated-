@@ -2,14 +2,14 @@ package de.hpi.matching.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 public class MatchingResponse {
-    @Getter(AccessLevel.PUBLIC) private long shopID;
-    @Getter(AccessLevel.PUBLIC) private String offerTitle;
-    @Getter(AccessLevel.PUBLIC) private String ean;
-    @Getter(AccessLevel.PUBLIC) private String han;
-    @Getter(AccessLevel.PUBLIC) private String sku;
-    @Getter(AccessLevel.PUBLIC) private String url;
-    @Getter(AccessLevel.PUBLIC) private double price;
-    @Getter(AccessLevel.PUBLIC) private String categoryString;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) long shopId;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String parsedCategory;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String idealoCategory;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private boolean isIdealoOffer;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Number offerId;
+
+
 }
