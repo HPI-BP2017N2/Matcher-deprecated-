@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 public class MatchingResponse {
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) long shopId;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Number shopId;
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String parsedCategory;
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String idealoCategory;
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private boolean isIdealoOffer;

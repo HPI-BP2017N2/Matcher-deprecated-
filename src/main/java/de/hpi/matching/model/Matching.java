@@ -3,30 +3,48 @@ package de.hpi.matching.model;
 import de.hpi.matching.dto.MatchingResponse;
 import de.hpi.restclient.clients.BPBridgeClient;
 import de.hpi.restclient.dto.MatchAttributeResponse;
+import de.hpi.restclient.pojo.Offer;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 
 public class Matching {
 
-    public static MatchingResponse match(BPBridgeClient client, long shopId, String offerTitle, String ean, String han, String sku, String url, double price, String categoryString) {
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static BPBridgeRepository repo;
 
-        if (ean != null) {
-            MatchAttributeResponse response = client.matchAttribute(shopId, "ean", ean);
-            if (response.getOffers().size() > 0) {
-                MatchingResponse response1 = new MatchingResponse();
-
-                response1.setIdealoOffer(true);
-                response1.setShopId(shopId);
-                response1.setOfferId(response.getOffers().get(0).getOfferId());
-                response1.setParsedCategory(categoryString);
-                response1.setIdealoCategory(response.getOffers().get(0).getCategoryString());
-                System.out.println(response1.getIdealoCategory());
-                return response1;
-            }
-        }
-        return new MatchingResponse();
+    public Matching (BPBridgeRepository repo) {
+        setRepo(repo);
     }
 
-}
+
+        public MatchingResponse match(long shopId, String offerTitle, String ean, String han, String sku, String url, double price, String categoryString){
+            if (ean != null) {
+                List<Offer> response = repo.searchEan(shopId, ean);
+                if (response.size() > 0) {
+                    return createMatchingResponse(response.get(0), categoryString);
+                    
+                }
+            }
+            return new MatchingResponse();
+        }
+
+
+        private MatchingResponse createMatchingResponse(Offer offer, String parsedCategory){
+
+            MatchingResponse response = new MatchingResponse();
+            response.setIdealoCategory(offer.getCategoryString());
+            response.setIdealoOffer(true);
+            response.setShopId(offer.getShopId());
+            response.setOfferId(offer.getOfferId());
+            response.setParsedCategory(parsedCategory);
+
+
+            return response;
+        }
+    }
 
 
 
