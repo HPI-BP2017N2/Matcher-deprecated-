@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class BPBridgeRepository {
+public class OfferMatchingRepository {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static BPBridgeClient client;
 
     @Autowired
-    public BPBridgeRepository (BPBridgeClient client){
+    public OfferMatchingRepository(BPBridgeClient client){
         setClient(client);
     }
 

@@ -1,8 +1,6 @@
 package de.hpi.matching.model;
 
 import de.hpi.matching.dto.MatchingResponse;
-import de.hpi.restclient.clients.BPBridgeClient;
-import de.hpi.restclient.dto.MatchAttributeResponse;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,35 +11,31 @@ import java.util.List;
 
 public class Matching {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static BPBridgeRepository repo;
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static OfferMatchingRepository repo;
 
-    public Matching (BPBridgeRepository repo) {
+    public Matching (OfferMatchingRepository repo) {
         setRepo(repo);
     }
 
 
-        public MatchingResponse match(long shopId, String offerTitle, String ean, String han, String sku, String url, double price, String categoryString){
-            if (ean != null) {
-                List<Offer> response = repo.searchEan(shopId, ean);
+        public MatchingResponse match(Offer offer){
+            if (offer.getEan() != null) {
+                List<Offer> response = repo.searchEan(offer.getShopId().longValue(), offer.getEan());
                 if (response.size() > 0) {
-                    return createMatchingResponse(response.get(0), categoryString);
-                    
+                    return createMatchingResponse( offer, response.get(0));
                 }
             }
             return new MatchingResponse();
         }
 
 
-        private MatchingResponse createMatchingResponse(Offer offer, String parsedCategory){
-
+        private MatchingResponse createMatchingResponse(Offer parsedOffer, Offer idealoOffer){
             MatchingResponse response = new MatchingResponse();
-            response.setIdealoCategory(offer.getCategoryString());
             response.setIdealoOffer(true);
-            response.setShopId(offer.getShopId());
-            response.setOfferId(offer.getOfferId());
-            response.setParsedCategory(parsedCategory);
-
-
+            response.setIdealoCategory(idealoOffer.getCategoryString());
+            response.setShopId(parsedOffer.getShopId());
+            response.setOfferId(idealoOffer.getOfferId());
+            response.setParsedCategory(parsedOffer.getCategoryString());
             return response;
         }
     }
