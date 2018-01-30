@@ -14,11 +14,12 @@ public class MatchEan implements MatchStrategy {
     @Setter(AccessLevel.PRIVATE)
     private static OfferMatchingRepository repo;
 
+    // initialization
     public MatchEan(OfferMatchingRepository repo) {
         setRepo(repo);
     }
 
-
+    // convenience
     @Override
     public Offer match(Offer offer) {
         if (offer.getEan() != null) {

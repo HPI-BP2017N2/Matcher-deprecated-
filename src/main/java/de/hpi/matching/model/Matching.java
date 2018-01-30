@@ -16,6 +16,7 @@ public class Matching {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private OfferMatchingRepository repo;
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private ArrayList<MatchStrategy> strategies;
 
+    // initialization
     public Matching (OfferMatchingRepository repo) {
         setRepo(repo);
         setStrategies(new ArrayList<MatchStrategy>());
@@ -25,8 +26,8 @@ public class Matching {
         getStrategies().add(new MatchOfferTitle(getRepo()));
     }
 
+    // convenience
     public MatchingResponse match(Offer offer){
-
         Offer match;
 
         for(MatchStrategy strategy : getStrategies()){

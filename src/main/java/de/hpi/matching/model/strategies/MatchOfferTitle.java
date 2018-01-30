@@ -14,11 +14,12 @@ public class MatchOfferTitle implements MatchStrategy {
     @Setter(AccessLevel.PRIVATE)
     private static OfferMatchingRepository repo;
 
+    // initialization
     public MatchOfferTitle(OfferMatchingRepository repo) {
         setRepo(repo);
     }
 
-
+    // convenience
     @Override
     public Offer match(Offer offer) {
         if (offer.getOfferTitle() != null) {

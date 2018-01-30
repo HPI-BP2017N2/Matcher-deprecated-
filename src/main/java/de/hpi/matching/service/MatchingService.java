@@ -16,15 +16,15 @@ public class MatchingService {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static OfferMatchingRepository repo;
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static Matching matching;
 
+    // initialization
     @Autowired
     public MatchingService (OfferMatchingRepository repository){
         setRepo(repository);
         setMatching(new Matching(getRepo()));
     }
 
+    // convenience
     public MatchingResponse match(Offer offer) {
-        return matching.match(offer);
+        return getMatching().match(offer);
     }
 }
-
-

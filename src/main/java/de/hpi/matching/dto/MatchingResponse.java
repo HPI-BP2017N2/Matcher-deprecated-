@@ -11,7 +11,7 @@ public class MatchingResponse {
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String parsedCategory, idealoCategory;
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private boolean isIdealoOffer;
 
-
+    // initialization
     public MatchingResponse(Number shopId, String parsedCategory){
         self().setIdealoOffer(false);
         self().setShopId(shopId);

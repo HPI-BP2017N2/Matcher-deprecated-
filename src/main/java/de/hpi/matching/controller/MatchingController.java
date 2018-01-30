@@ -43,6 +43,6 @@ public class MatchingController {
         price.put("0", restMatchingConfig.getPrice());
         offer.setPrice(price);
 
-        return service.match(offer);
+        return getService().match(offer);
     }
 }

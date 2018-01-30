@@ -14,11 +14,12 @@ public class MatchSku implements MatchStrategy {
     @Setter(AccessLevel.PRIVATE)
     private static OfferMatchingRepository repo;
 
+    // initialization
     public MatchSku(OfferMatchingRepository repo) {
         setRepo(repo);
     }
 
-
+    // convenience
     @Override
     public Offer match(Offer offer) {
         if (offer.getSku() != null) {

@@ -5,11 +5,6 @@ import lombok.Getter;
 
 public class RestMatchingConfig {
     @Getter(AccessLevel.PUBLIC) private long shopId;
-    @Getter(AccessLevel.PUBLIC) private String offerTitle;
-    @Getter(AccessLevel.PUBLIC) private String ean;
-    @Getter(AccessLevel.PUBLIC) private String han;
-    @Getter(AccessLevel.PUBLIC) private String sku;
-    @Getter(AccessLevel.PUBLIC) private String url;
+    @Getter(AccessLevel.PUBLIC) private String offerTitle, ean, han, sku, url,categoryString;
     @Getter(AccessLevel.PUBLIC) private double price;
-    @Getter(AccessLevel.PUBLIC) private String categoryString;
 }
