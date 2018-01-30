@@ -22,7 +22,7 @@ public class MatchingController {
         setService(service);
     }
 
-    @RequestMapping(value = "/match", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/matcher/match", method = RequestMethod.POST, produces = "application/json")
     public MatchingResponse startMatching(@RequestBody RestMatchingConfig restMatchingConfig){
         Offer offer = new Offer();
         Map<String, String> title = new HashMap<String, String>();

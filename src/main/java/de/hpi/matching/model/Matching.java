@@ -1,10 +1,7 @@
 package de.hpi.matching.model;
 
 import de.hpi.matching.dto.MatchingResponse;
-import de.hpi.matching.model.strategies.MatchEan;
-import de.hpi.matching.model.strategies.MatchHan;
-import de.hpi.matching.model.strategies.MatchSku;
-import de.hpi.matching.model.strategies.MatchStrategy;
+import de.hpi.matching.model.strategies.*;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,8 +22,9 @@ public class Matching {
         getStrategies().add(new MatchEan(getRepo()));
         getStrategies().add(new MatchHan(getRepo()));
         getStrategies().add(new MatchSku(getRepo()));
+        getStrategies().add(new MatchOfferTitle(getRepo()));
     }
-    
+
     public MatchingResponse match(Offer offer){
 
         Offer match;
@@ -34,20 +32,10 @@ public class Matching {
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(offer);
             if(match != null){
-                return createMatchingResponse(offer, match);
+                return new MatchingResponse(offer.getShopId(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
             }
         }
 
-        return new MatchingResponse();
-    }
-
-    private MatchingResponse createMatchingResponse(Offer parsedOffer, Offer idealoOffer){
-        MatchingResponse response = new MatchingResponse();
-        response.setIdealoOffer(true);
-        response.setIdealoCategory(idealoOffer.getCategoryString());
-        response.setShopId(parsedOffer.getShopId());
-        response.setOfferId(idealoOffer.getOfferId());
-        response.setParsedCategory(parsedOffer.getCategoryString());
-        return response;
+        return new MatchingResponse(offer.getShopId(), offer.getCategoryString());
     }
 }

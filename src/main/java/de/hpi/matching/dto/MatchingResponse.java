@@ -7,11 +7,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 public class MatchingResponse {
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Number shopId;
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String parsedCategory;
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String idealoCategory;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Number shopId, offerId;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private String parsedCategory, idealoCategory;
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private boolean isIdealoOffer;
-    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Number offerId;
 
 
+    public MatchingResponse(Number shopId, String parsedCategory){
+        self().setIdealoOffer(false);
+        self().setShopId(shopId);
+        self().setParsedCategory(parsedCategory);
+    }
+
+    public MatchingResponse(Number shopId, Number offerId, String parsedCategory, String idealoCategory){
+        self().setIdealoOffer(true);
+        self().setShopId(shopId);
+        self().setOfferId(offerId);
+        self().setParsedCategory(parsedCategory);
+        self().setIdealoCategory(idealoCategory);
+    }
+
+    private MatchingResponse self(){
+        return this;
+    }
 }
