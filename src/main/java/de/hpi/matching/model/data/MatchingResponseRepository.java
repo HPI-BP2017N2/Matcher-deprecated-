@@ -9,6 +9,4 @@ public interface MatchingResponseRepository {
     void saveMatchingResponse(MatchingResponse matchingResponse);
 
     MatchingResponse findByOfferId(Number offerId, String collection);
-
-
 }
