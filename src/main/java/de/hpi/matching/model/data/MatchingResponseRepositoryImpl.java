@@ -1,5 +1,6 @@
 package de.hpi.matching.model.data;
 
+import de.hpi.matching.dto.MatchingResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +22,14 @@ public class MatchingResponseRepositoryImpl implements MatchingResponseRepositor
     }
 
     @Override
-    public void saveMatchingResponse(long shopId, String parsedCategory, String idealoCategory, boolean isIdealoOffer, Number offerId) {
+    public void saveMatchingResponse(MatchingResponse matchingResponse) {
 
-        // TODO: save the data into mongo!
+        getMongoTemplate().insert(matchingResponse);
+    }
 
+    @Override
+    public MatchingResponse findByOfferId(Number offerId, String collection) {
+        return getMongoTemplate().findById(offerId, MatchingResponse.class, collection);
     }
 
 
