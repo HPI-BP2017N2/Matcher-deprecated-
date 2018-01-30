@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import de.hpi.matching.dto.ParsedOffer;
+import de.hpi.restclient.dto.ParsedOffer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +30,7 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
     @Override
     public List<ParsedOffer> getFirstOffersOfShop(long shopID, int maxOffers, int offset) {
         List<ParsedOffer> offers = new LinkedList<ParsedOffer>();
-        DBCollection collection = getMongoTemplate().getCollection("parsedOffers");
+        DBCollection collection = getMongoTemplate().getCollection("test");
         if (collection != null) {
             DBCursor cursor = collection.find(new BasicDBObject("shopId", shopID)).skip(offset).limit(maxOffers);
             while (cursor.hasNext()) {

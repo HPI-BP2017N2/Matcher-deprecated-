@@ -1,17 +1,19 @@
 package de.hpi.matching.controller;
 
 import de.hpi.matching.dto.MatchingResponse;
-import de.hpi.matching.dto.ParsedOffer;
-import de.hpi.matching.model.Matching;
 import de.hpi.matching.model.data.MatchingResponseRepository;
 import de.hpi.matching.model.data.ParsedOfferRepository;
 import de.hpi.matching.service.MatchingService;
+import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class MatchingController {
         offer.setUrl(url);
         price.put("0", parsedOffer.getPrice());
         offer.setPrice(price);
-        System.out.println(getOfferRepository().getFirstOffersOfShop(6980, 1,0));
+        System.out.println(getOfferRepository().getFirstOffersOfShop(6980, 1,1).toString());
         return getService().match(offer);
     }
 }
