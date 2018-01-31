@@ -1,13 +1,10 @@
 package de.hpi.matching.model.data;
 
-import de.hpi.matching.dto.MatchingResponse;
+import de.hpi.restclient.dto.MatchingResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 

@@ -37,8 +37,14 @@ public class OfferMatchingRepository {
     }
 
     public List<Offer> searchOfferTitle(long shopId, String offerTitle){
+        /*
+            TO DO: fix search for Map objects instead of String
+         */
+
         HashMap<String, String> title = new HashMap<String, String>();
         title.put("0", offerTitle);
-        return getClient().matchAttribute(shopId, "offerTitle", title.toString()).getOffers();
+        String titleString = "{ \"0\" : \"" + offerTitle + "\" }";
+
+        return getClient().matchAttribute(shopId, "offerTitle", titleString).getOffers();
     }
 }

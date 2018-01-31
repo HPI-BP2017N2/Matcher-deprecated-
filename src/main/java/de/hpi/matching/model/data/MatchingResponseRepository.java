@@ -1,6 +1,6 @@
 package de.hpi.matching.model.data;
 
-import de.hpi.matching.dto.MatchingResponse;
+import de.hpi.restclient.dto.MatchingResponse;
 import org.springframework.stereotype.Repository;
 
 @Repository

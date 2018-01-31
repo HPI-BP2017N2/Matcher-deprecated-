@@ -1,14 +1,13 @@
 package de.hpi.matching.model;
 
-import de.hpi.matching.dto.MatchingResponse;
 import de.hpi.matching.model.strategies.*;
+import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Matching {

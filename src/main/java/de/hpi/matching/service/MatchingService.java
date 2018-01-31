@@ -1,8 +1,8 @@
 package de.hpi.matching.service;
 
-import de.hpi.matching.dto.MatchingResponse;
-import de.hpi.matching.model.OfferMatchingRepository;
 import de.hpi.matching.model.Matching;
+import de.hpi.matching.model.OfferMatchingRepository;
+import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;

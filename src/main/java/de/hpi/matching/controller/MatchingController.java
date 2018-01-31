@@ -1,9 +1,9 @@
 package de.hpi.matching.controller;
 
-import de.hpi.matching.dto.MatchingResponse;
 import de.hpi.matching.model.data.MatchingResponseRepository;
 import de.hpi.matching.model.data.ParsedOfferRepository;
 import de.hpi.matching.service.MatchingService;
+import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
@@ -51,7 +51,6 @@ public class MatchingController {
         offer.setUrl(url);
         price.put("0", parsedOffer.getPrice());
         offer.setPrice(price);
-        System.out.println(getOfferRepository().getFirstOffersOfShop(6980, 1,1).toString());
         return getService().match(offer);
     }
 }

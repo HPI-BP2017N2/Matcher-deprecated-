@@ -5,6 +5,6 @@ import de.hpi.restclient.pojo.Offer;
 
 public interface MatchStrategy {
 
-    // initialization
+    // convenience
     Offer match(Offer offer);
 }
