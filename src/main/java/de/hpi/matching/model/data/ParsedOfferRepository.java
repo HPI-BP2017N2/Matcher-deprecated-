@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+//@Repository
 public interface ParsedOfferRepository {
 
     List<ParsedOffer> getFirstOffersOfShop(long shopID, int maxOffers, int offset);

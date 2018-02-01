@@ -21,14 +21,13 @@ import java.util.Map;
 @RestController
 public class MatchingController {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingService service;
-    @Autowired
-    @Getter(AccessLevel.PRIVATE) private ParsedOfferRepository offerRepository;
-    @Autowired
-    @Getter(AccessLevel.PRIVATE) private MatchingResponseRepository responseRepository;
+    @Getter(AccessLevel.PRIVATE) @ Setter(AccessLevel.PRIVATE) private ParsedOfferRepository offerRepository;
+
 
     @Autowired
-    public MatchingController(MatchingService service){
+    public MatchingController(MatchingService service, ParsedOfferRepository offerRepository){
         setService(service);
+        setOfferRepository(offerRepository);
     }
 
     @RequestMapping(value = "/matcher/match", method = RequestMethod.POST, produces = "application/json")
@@ -51,6 +50,7 @@ public class MatchingController {
         offer.setUrl(url);
         price.put("0", parsedOffer.getPrice());
         offer.setPrice(price);
+        System.out.println(getOfferRepository().getFirstOffersOfShop(1362, 2, 0).get(0).getShopId());
         return getService().match(offer);
     }
 }

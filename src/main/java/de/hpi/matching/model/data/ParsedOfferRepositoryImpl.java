@@ -30,7 +30,7 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
     @Override
     public List<ParsedOffer> getFirstOffersOfShop(long shopID, int maxOffers, int offset) {
         List<ParsedOffer> offers = new LinkedList<ParsedOffer>();
-        DBCollection collection = getMongoTemplate().getCollection("test");
+        DBCollection collection = getMongoTemplate().getCollection(Long.toString(shopID));
         if (collection != null) {
             DBCursor cursor = collection.find(new BasicDBObject("shopId", shopID)).skip(offset).limit(maxOffers);
             while (cursor.hasNext()) {
