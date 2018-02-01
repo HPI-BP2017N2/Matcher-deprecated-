@@ -2,6 +2,7 @@ package de.hpi.matching.model;
 
 import de.hpi.matching.model.strategies.*;
 import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class Matching {
     }
 
     // convenience
-    public MatchingResponse match(Offer offer){
+    public MatchingResponse match(ParsedOffer offer){
         Offer match;
 
         for(MatchStrategy strategy : getStrategies()){

@@ -3,6 +3,7 @@ package de.hpi.matching.service;
 import de.hpi.matching.model.Matching;
 import de.hpi.matching.model.OfferMatchingRepository;
 import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class MatchingService {
     }
 
     // convenience
-    public MatchingResponse match(Offer offer) {
+    public MatchingResponse match(ParsedOffer offer) {
         return getMatching().match(offer);
     }
 }

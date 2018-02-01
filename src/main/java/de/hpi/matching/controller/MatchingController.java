@@ -1,6 +1,5 @@
 package de.hpi.matching.controller;
 
-import de.hpi.matching.model.data.MatchingResponseRepository;
 import de.hpi.matching.model.data.ParsedOfferRepository;
 import de.hpi.matching.service.MatchingService;
 import de.hpi.restclient.dto.MatchingResponse;
@@ -21,13 +20,13 @@ import java.util.Map;
 @RestController
 public class MatchingController {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingService service;
-    @Getter(AccessLevel.PRIVATE) @ Setter(AccessLevel.PRIVATE) private ParsedOfferRepository offerRepository;
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private ParsedOfferRepository parsedOfferRepository;
 
 
     @Autowired
-    public MatchingController(MatchingService service, ParsedOfferRepository offerRepository){
+    public MatchingController(MatchingService service, ParsedOfferRepository parsedOfferRepository){
         setService(service);
-        setOfferRepository(offerRepository);
+        setParsedOfferRepository(parsedOfferRepository);
     }
 
     @RequestMapping(value = "/matcher/match", method = RequestMethod.POST, produces = "application/json")
@@ -50,7 +49,7 @@ public class MatchingController {
         offer.setUrl(url);
         price.put("0", parsedOffer.getPrice());
         offer.setPrice(price);
-        System.out.println(getOfferRepository().getFirstOffersOfShop(1362, 2, 0).get(0).getShopId());
-        return getService().match(offer);
+        System.out.println(getParsedOfferRepository().getFirstOffersOfShop(1362, 2, 0).get(0).getShopId());
+        return getService().match(parsedOffer);
     }
 }
