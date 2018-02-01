@@ -33,10 +33,10 @@ public class Matching {
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(offer);
             if(match != null){
-                return new MatchingResponse(offer.getShopId(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
+                return new MatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
             }
         }
 
-        return new MatchingResponse(offer.getShopId(), offer.getCategoryString());
+        return new MatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
     }
 }

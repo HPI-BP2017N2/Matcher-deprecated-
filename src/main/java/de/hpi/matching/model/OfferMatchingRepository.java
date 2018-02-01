@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class OfferMatchingRepository {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private static BPBridgeClient client;
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private BPBridgeClient client;
 
     // initialization
     @Autowired
