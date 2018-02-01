@@ -1,10 +1,10 @@
-package de.hpi.matching.model.data;
+package de.hpi.matching.repo.matchingResults;
 
 import de.hpi.restclient.dto.MatchingResponse;
 import org.springframework.stereotype.Repository;
 
 
-public interface MatchingResponseRepository {
+public interface MatchingResultsRepository {
 
     void saveMatchingResponse(MatchingResponse matchingResponse);
 

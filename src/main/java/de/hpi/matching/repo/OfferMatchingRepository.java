@@ -1,4 +1,4 @@
-package de.hpi.matching.model;
+package de.hpi.matching.repo;
 
 import de.hpi.restclient.clients.BPBridgeClient;
 import de.hpi.restclient.dto.MatchAttributeResponse;

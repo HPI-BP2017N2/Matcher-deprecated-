@@ -1,4 +1,4 @@
-package de.hpi.matching.model.data;
+package de.hpi.matching.repo.parsedOffers;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;

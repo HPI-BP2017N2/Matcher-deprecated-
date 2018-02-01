@@ -1,4 +1,4 @@
-package de.hpi.matching.model.data;
+package de.hpi.matching.repo.matchingResults;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -10,17 +10,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MatchingResponseRepositoryImpl implements MatchingResponseRepository {
+public class MatchingResultsRepositoryImpl implements MatchingResultsRepository {
 
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
     @Autowired
-    public MatchingResponseRepositoryImpl(MongoTemplate mongoTemplate) {
+    public MatchingResultsRepositoryImpl(MongoTemplate mongoTemplate) {
         setMongoTemplate(mongoTemplate);
     }
 
@@ -28,14 +26,16 @@ public class MatchingResponseRepositoryImpl implements MatchingResponseRepositor
     public void saveMatchingResponse( MatchingResponse matchingResponse) {
         long shopId = matchingResponse.getShopId().longValue();
         DBCollection collection = getCollectionForShop(shopId);
+        System.out.println(collection);
         DBObject dbObject = convertMatchingResponseToDbObject(matchingResponse);
-        long id = searchResponseId(collection, matchingResponse);
+        String id = searchResponseId(collection, matchingResponse);
         if(collection != null){
-            if(id != -1){
+            if(id != null){
                 dbObject.put("_id", id);
             }
             collection.save(dbObject);
         }
+        System.out.println("saved object");
     }
 
     //conversion
@@ -45,12 +45,12 @@ public class MatchingResponseRepositoryImpl implements MatchingResponseRepositor
         return dbObject;
     }
 
-    private long searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
+    private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
         DBCursor offerIdCursor = collection.find(new BasicDBObject("offerId", matchingResponse.getOfferId()));
         DBCursor urlCursor = collection.find(new BasicDBObject("url", matchingResponse.getUrl()));
-        if (offerIdCursor.hasNext()) { return Long.valueOf(offerIdCursor.next().get("_id").toString()); }
-        if (offerIdCursor.hasNext()) { return Long.valueOf(urlCursor.next().get("_id").toString()); }
-        return -1;
+        if (offerIdCursor.hasNext()) { return offerIdCursor.next().get("_id").toString(); }
+        if (offerIdCursor.hasNext()) { return urlCursor.next().get("_id").toString(); }
+        return null;
     }
 
     private DBCollection getCollectionForShop(long shopId){

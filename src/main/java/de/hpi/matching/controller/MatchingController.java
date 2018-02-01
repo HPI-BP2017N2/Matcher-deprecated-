@@ -1,6 +1,5 @@
 package de.hpi.matching.controller;
 
-import de.hpi.matching.model.data.ParsedOfferRepository;
 import de.hpi.matching.service.MatchingService;
 import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;

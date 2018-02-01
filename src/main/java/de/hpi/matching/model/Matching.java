@@ -1,6 +1,7 @@
 package de.hpi.matching.model;
 
 import de.hpi.matching.model.strategies.*;
+import de.hpi.matching.repo.OfferMatchingRepository;
 import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;

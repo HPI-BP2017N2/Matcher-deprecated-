@@ -1,10 +1,7 @@
-package de.hpi.matching.model.data;
+package de.hpi.matching.repo.parsedOffers;
 
 
 import de.hpi.restclient.dto.ParsedOffer;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 public interface ParsedOfferRepository {
 

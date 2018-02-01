@@ -1,12 +1,11 @@
 package de.hpi.matching.service;
 
 import de.hpi.matching.model.Matching;
-import de.hpi.matching.model.OfferMatchingRepository;
-import de.hpi.matching.model.data.MatchingResponseRepository;
-import de.hpi.matching.model.data.ParsedOfferRepository;
+import de.hpi.matching.repo.OfferMatchingRepository;
+import de.hpi.matching.repo.matchingResults.MatchingResultsRepository;
+import de.hpi.matching.repo.parsedOffers.ParsedOfferRepository;
 import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
-import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,18 +18,23 @@ public class MatchingService {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private OfferMatchingRepository repo;
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private Matching matching;
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private ParsedOfferRepository parsedOfferRepository;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingResponseRepository matchingResponseRepository;
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingResultsRepository matchingResultsRepository;
 
     // initialization
     @Autowired
-    public MatchingService (OfferMatchingRepository repository){
+    public MatchingService (OfferMatchingRepository repository, ParsedOfferRepository parsedOfferRepository, MatchingResultsRepository matchingResultsRepository){
         setRepo(repository);
+        setMatchingResultsRepository(matchingResultsRepository);
+        setParsedOfferRepository(parsedOfferRepository);
         setMatching(new Matching(getRepo()));
     }
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        return getMatching().match(offer);
+        MatchingResponse response = getMatching().match(offer);
+        getMatchingResultsRepository().saveMatchingResponse(response);
+        return response;
+        //return getMatching().match(offer);
     }
 
     public void matchOffersForShop(long shopId){
@@ -39,7 +43,7 @@ public class MatchingService {
         do {
             offer = getParsedOfferRepository().getFirstOffer(shopId);
             response = getMatching().match(offer);
-            getMatchingResponseRepository().saveMatchingResponse(response);
+            this.getMatchingResultsRepository().saveMatchingResponse(response);
             getParsedOfferRepository().removeFirstOffer(shopId);
         } while (offer != null);
 
