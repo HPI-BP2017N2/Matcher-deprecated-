@@ -18,8 +18,8 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
     @Autowired
-    public MatchingResultsRepositoryImpl(MongoTemplate mongoTemplate) {
-        setMongoTemplate(mongoTemplate);
+    public MatchingResultsRepositoryImpl(MongoTemplate matchingResultsTemplate) {
+        setMongoTemplate(matchingResultsTemplate);
     }
 
     @Override
