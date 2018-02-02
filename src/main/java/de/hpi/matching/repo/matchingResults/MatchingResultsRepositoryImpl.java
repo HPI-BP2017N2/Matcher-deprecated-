@@ -9,18 +9,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MatchingResultsRepositoryImpl implements MatchingResultsRepository {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
-
     @Autowired
-    public MatchingResultsRepositoryImpl(MongoTemplate matchingResultsTemplate) {
-        setMongoTemplate(matchingResultsTemplate);
-    }
+    @Qualifier(value = "secondaryMongoTemplate")
+    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
     @Override
     public void saveMatchingResponse( MatchingResponse matchingResponse) {
@@ -38,13 +36,15 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         System.out.println("saved object");
     }
 
-    //conversion
+    // conversion
     private DBObject convertMatchingResponseToDbObject(MatchingResponse matchingResponse){
         DBObject dbObject = new BasicDBObject();
         getMongoTemplate().getConverter().write(matchingResponse, dbObject);
         return dbObject;
     }
 
+
+    //actions
     private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
         DBCursor offerIdCursor = collection.find(new BasicDBObject("offerId", matchingResponse.getOfferId()));
         DBCursor urlCursor = collection.find(new BasicDBObject("url", matchingResponse.getUrl()));

@@ -31,20 +31,16 @@ public class MatchingService {
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        MatchingResponse response = getMatching().match(offer);
-        getMatchingResultsRepository().saveMatchingResponse(response);
-        return response;
-        //return getMatching().match(offer);
+        return getMatching().match(offer);
     }
 
     public void matchOffersForShop(long shopId){
         ParsedOffer offer;
         MatchingResponse response;
         do {
-            offer = getParsedOfferRepository().getFirstOffer(shopId);
+            offer = getParsedOfferRepository().popOffer(shopId);
             response = getMatching().match(offer);
-            this.getMatchingResultsRepository().saveMatchingResponse(response);
-            getParsedOfferRepository().removeFirstOffer(shopId);
+            getMatchingResultsRepository().saveMatchingResponse(response);
         } while (offer != null);
 
     }

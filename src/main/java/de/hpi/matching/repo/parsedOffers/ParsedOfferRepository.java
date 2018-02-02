@@ -6,6 +6,7 @@ import de.hpi.restclient.dto.ParsedOffer;
 public interface ParsedOfferRepository {
 
     ParsedOffer getFirstOffer(long shopId);
-    void removeFirstOffer(long shopId);
+
+    ParsedOffer popOffer(long shopId);
 
 }
