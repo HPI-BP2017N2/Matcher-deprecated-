@@ -30,7 +30,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         if(id != null){
             dbObject.put("_id", id);
         }
-        collection.save(dbObject);
+            collection.save(dbObject);
         System.out.println("saved object");
     }
 
@@ -47,7 +47,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         DBCursor offerIdCursor = collection.find(new BasicDBObject("offerId", matchingResponse.getOfferId()));
         DBCursor urlCursor = collection.find(new BasicDBObject("url", matchingResponse.getUrl()));
         if (offerIdCursor.hasNext()) { return offerIdCursor.next().get("_id").toString(); }
-        if (offerIdCursor.hasNext()) { return urlCursor.next().get("_id").toString(); }
+        if (urlCursor.hasNext()) { return urlCursor.next().get("_id").toString(); }
         return null;
     }
 
