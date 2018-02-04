@@ -1,4 +1,4 @@
-package de.hpi.matching.repo.matchingResults;
+package de.hpi.matching.repo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class MatchingResultsRepositoryImpl implements MatchingResultsRepository {
 
     @Autowired
-    @Qualifier(value = "secondaryMongoTemplate")
+    @Qualifier(value = "matchingResultTemplate")
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
     @Override
@@ -27,12 +27,10 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         System.out.println(collection);
         DBObject dbObject = convertMatchingResponseToDbObject(matchingResponse);
         String id = searchResponseId(collection, matchingResponse);
-        if(collection != null){
-            if(id != null){
-                dbObject.put("_id", id);
-            }
-            collection.save(dbObject);
+        if(id != null){
+            dbObject.put("_id", id);
         }
+        collection.save(dbObject);
         System.out.println("saved object");
     }
 

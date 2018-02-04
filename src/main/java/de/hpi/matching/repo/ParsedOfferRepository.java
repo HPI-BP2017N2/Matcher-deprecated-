@@ -1,4 +1,4 @@
-package de.hpi.matching.repo.parsedOffers;
+package de.hpi.matching.repo;
 
 
 import de.hpi.restclient.dto.ParsedOffer;

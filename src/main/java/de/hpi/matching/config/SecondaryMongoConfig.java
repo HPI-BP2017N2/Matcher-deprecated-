@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-@ConfigurationProperties(prefix = "secondary.mongodb")
+@ConfigurationProperties(prefix = "matchingResults.mongodb")
 public class SecondaryMongoConfig extends  AbstractMongoConfig{
 
     @Override
-    public @Bean(name = "secondaryMongoTemplate")
+    public @Bean(name = "matchingResultTemplate")
     MongoTemplate getMongoTemplate() throws Exception {
         return new MongoTemplate(mongoDbFactory());
     }

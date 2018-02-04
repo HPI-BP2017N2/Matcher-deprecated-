@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-@ConfigurationProperties(prefix = "primary.mongodb")
+@ConfigurationProperties(prefix = "parsedOffers.mongodb")
 public class CommonMongoConfig extends AbstractMongoConfig {
 
     @Primary
     @Override
-    public @Bean(name = "primaryMongoTemplate")
+    public @Bean(name = "parsedOfferTemplate")
     MongoTemplate getMongoTemplate() throws Exception {
         return new MongoTemplate(mongoDbFactory());
     }

@@ -2,8 +2,8 @@ package de.hpi.matching.service;
 
 import de.hpi.matching.model.Matching;
 import de.hpi.matching.repo.OfferMatchingRepository;
-import de.hpi.matching.repo.matchingResults.MatchingResultsRepository;
-import de.hpi.matching.repo.parsedOffers.ParsedOfferRepository;
+import de.hpi.matching.repo.MatchingResultsRepository;
+import de.hpi.matching.repo.ParsedOfferRepository;
 import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
 import lombok.AccessLevel;

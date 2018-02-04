@@ -1,4 +1,4 @@
-package de.hpi.matching.repo.parsedOffers;
+package de.hpi.matching.repo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
 
     @Autowired
-    @Qualifier(value = "primaryMongoTemplate")
+    @Qualifier(value = "parsedOfferTemplate")
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
     // convenience
