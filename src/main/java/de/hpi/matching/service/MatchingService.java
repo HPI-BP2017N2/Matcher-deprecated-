@@ -31,20 +31,36 @@ public class MatchingService {
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        MatchingResponse response = getMatching().match(offer);
-        getMatchingResultsRepository().save(response);
-        return response;
-        //return getMatching().match(offer);
+        if(isInDatabaseAndIdealoOffer(offer)) {
+            return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl());
+        }
+        return getMatching().match(offer);
     }
 
-    public void matchOffersForShop(long shopId){
+    public void matchOffersForShop(long shopId) {
         ParsedOffer offer;
         MatchingResponse response;
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
+            if (isInDatabaseAndIdealoOffer(offer)) {
+                continue;
+            }
             response = getMatching().match(offer);
             getMatchingResultsRepository().save(response);
         } while (offer != null);
 
+    }
+
+    // conditionals
+    private boolean isInDatabaseAndIdealoOffer(ParsedOffer offer) {
+        return isInDatabase(offer) && isIdealoOffer(offer);
+    }
+
+    private boolean isInDatabase(ParsedOffer offer) {
+        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()) != null;
+    }
+
+    private boolean isIdealoOffer(ParsedOffer offer) {
+        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()).isIdealoOffer();
     }
 }
