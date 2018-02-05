@@ -31,7 +31,10 @@ public class MatchingService {
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        return getMatching().match(offer);
+        MatchingResponse response = getMatching().match(offer);
+        getMatchingResultsRepository().save(response);
+        return response;
+        //return getMatching().match(offer);
     }
 
     public void matchOffersForShop(long shopId){
@@ -40,7 +43,7 @@ public class MatchingService {
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
             response = getMatching().match(offer);
-            getMatchingResultsRepository().saveMatchingResponse(response);
+            getMatchingResultsRepository().save(response);
         } while (offer != null);
 
     }
