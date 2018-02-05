@@ -1,0 +1,26 @@
+bpbridge:
+ root: ${BPBRIDGE_IP}
+ getRandomOfferRoute: '/getRandomOffers'
+ shopIDToURLRoute: '/shopIDToUrl'
+ matchAttributeRoute: '/matchAttribute'
+ cleanURLRoute: '/cleanURL'
+
+
+server:
+ port: ${MATCHER_PORT}
+
+parsedOffers:
+ mongodb:
+ host: ${MONGO_IP}
+    port: ${MONGO_PORT}
+    username: ${MONGO_MATCHER_USER}
+    password: ${MONGO_MATCHER_PW}
+    database: parsedOffers
+
+matchingResults:
+ mongodb:
+ host: ${MONGO_IP}
+    port: ${MONGO_PORT}
+    username: ${MONGO_MATCHER_USER}
+    password: ${MONGO_MATCHER_PW}
+    database: matchingResults
