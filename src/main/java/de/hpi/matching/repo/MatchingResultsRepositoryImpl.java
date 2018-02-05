@@ -48,8 +48,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         return null;
     }
 
-
-    //actions
+    // actions
     private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
         DBObject offerIdResponse = searchByIdentifier(collection, "offerId", matchingResponse.getOfferId());
         DBObject urlResponse = searchByIdentifier(collection, "url", matchingResponse.getUrl());
@@ -64,7 +63,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
 
     private DBObject searchByIdentifier(DBCollection collection, String identifier, Object value){
         DBCursor cursor = collection.find(new BasicDBObject(identifier, value));
-        if (cursor.hasNext() && cursor.size() == 1) {
+        if (cursor.size() == 1) {
             DBObject dbObject = cursor.next();
             if (dbObject.get(identifier).equals(value)) {
                 return dbObject;

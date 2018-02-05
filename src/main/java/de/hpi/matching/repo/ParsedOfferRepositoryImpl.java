@@ -34,7 +34,7 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
     }
 
     // conversion
-    private ParsedOffer convertDBObjectToParsedOffer(DBObject parsedOfferDbObject){
+    private ParsedOffer convertDBObjectToParsedOffer(DBObject parsedOfferDbObject) {
         return getMongoTemplate().getConverter().read(ParsedOffer.class, parsedOfferDbObject);
     }
 
