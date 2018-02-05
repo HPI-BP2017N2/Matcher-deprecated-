@@ -24,14 +24,13 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     public void saveMatchingResponse( MatchingResponse matchingResponse) {
         long shopId = matchingResponse.getShopId().longValue();
         DBCollection collection = getCollectionForShop(shopId);
-        System.out.println(collection);
+        //System.out.println(collection);
         DBObject dbObject = convertMatchingResponseToDbObject(matchingResponse);
         String id = searchResponseId(collection, matchingResponse);
         if(id != null){
             dbObject.put("_id", id);
         }
-            collection.save(dbObject);
-        System.out.println("saved object");
+        collection.save(dbObject);
     }
 
     // conversion
@@ -46,8 +45,15 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
         DBCursor offerIdCursor = collection.find(new BasicDBObject("offerId", matchingResponse.getOfferId()));
         DBCursor urlCursor = collection.find(new BasicDBObject("url", matchingResponse.getUrl()));
-        if (offerIdCursor.hasNext()) { return offerIdCursor.next().get("_id").toString(); }
-        if (urlCursor.hasNext()) { return urlCursor.next().get("_id").toString(); }
+        Object id;
+        if (offerIdCursor.hasNext()) {
+            id = offerIdCursor.next().get("_id");
+            System.out.println(id.toString());
+            return id.toString(); }
+        if (urlCursor.hasNext()) {
+            id = urlCursor.next().get("_id");
+            System.out.println(id);
+            return id.toString(); }
         return null;
     }
 
