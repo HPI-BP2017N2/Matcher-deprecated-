@@ -31,17 +31,33 @@ public class MatchingService {
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
+        if(isInDatabase(offer) && isIdealoOffer(offer)) {
+            return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl());
+        }
+
         return getMatching().match(offer);
     }
 
-    public void matchOffersForShop(long shopId){
+    public void matchOffersForShop(long shopId) {
         ParsedOffer offer;
         MatchingResponse response;
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
+            if (isInDatabase(offer) && isIdealoOffer(offer)) {
+                continue;
+            }
             response = getMatching().match(offer);
-            getMatchingResultsRepository().saveMatchingResponse(response);
+            getMatchingResultsRepository().save(response);
         } while (offer != null);
 
+    }
+
+    // conditionals
+    private boolean isInDatabase(ParsedOffer offer) {
+        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()) != null;
+    }
+
+    private boolean isIdealoOffer(ParsedOffer offer) {
+        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()).isIdealoOffer();
     }
 }

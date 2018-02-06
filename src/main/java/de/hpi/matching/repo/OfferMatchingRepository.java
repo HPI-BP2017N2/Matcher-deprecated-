@@ -25,15 +25,15 @@ public class OfferMatchingRepository {
 
     // convenience
     public List<Offer> searchEan(long shopId, String ean){
-        return getClient().matchAttribute(shopId, "ean", ean).getOffers();
+        return searchByAttribute(shopId, "ean", ean);
     }
 
     public List<Offer> searchSku(long shopId, String sku){
-        return getClient().matchAttribute(shopId, "sku", sku).getOffers();
+        return  searchByAttribute(shopId, "sku", sku);
     }
 
     public List<Offer> searchHan(long shopId, String han){
-        return getClient().matchAttribute(shopId, "han", han).getOffers();
+        return  searchByAttribute(shopId, "han", han);
     }
 
     public List<Offer> searchOfferTitle(long shopId, String offerTitle){
@@ -41,10 +41,15 @@ public class OfferMatchingRepository {
             TO DO: fix search for Map objects instead of String
          */
 
-        HashMap<String, String> title = new HashMap<String, String>();
+        HashMap<String, String> title = new HashMap<>();
         title.put("0", offerTitle);
         String titleString = "{ \"0\" : \"" + offerTitle + "\" }";
 
-        return getClient().matchAttribute(shopId, "offerTitle", titleString).getOffers();
+        return searchByAttribute(shopId, "offerTitle", titleString);
+    }
+
+    // actions
+    private List<Offer> searchByAttribute(long shopId, String attribute, String value) {
+        return getClient().matchAttribute(shopId, attribute, value).getOffers();
     }
 }

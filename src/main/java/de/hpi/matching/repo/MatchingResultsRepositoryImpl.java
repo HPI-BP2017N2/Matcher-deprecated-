@@ -1,13 +1,12 @@
 package de.hpi.matching.repo;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.dto.ParsedOffer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,17 +19,21 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     @Qualifier(value = "matchingResultTemplate")
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
+    // convenience
     @Override
-    public void saveMatchingResponse( MatchingResponse matchingResponse) {
-        long shopId = matchingResponse.getShopId().longValue();
-        DBCollection collection = getCollectionForShop(shopId);
-        //System.out.println(collection);
+    public void save(MatchingResponse matchingResponse) {
+        DBCollection collection = getCollectionForShop(matchingResponse.getShopId().longValue());
         DBObject dbObject = convertMatchingResponseToDbObject(matchingResponse);
         String id = searchResponseId(collection, matchingResponse);
         if(id != null){
-            dbObject.put("_id", id);
+            dbObject.put("_id", new ObjectId(id));
         }
         collection.save(dbObject);
+    }
+
+    @Override
+    public MatchingResponse searchByUrl(long shopId, String url) {
+        return convertDBObjectToMatchingResponse(searchByIdentifier(getCollectionForShop(shopId), "url", url));
     }
 
     // conversion
@@ -40,24 +43,45 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         return dbObject;
     }
 
-
-    //actions
-    private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
-        DBCursor offerIdCursor = collection.find(new BasicDBObject("offerId", matchingResponse.getOfferId()));
-        DBCursor urlCursor = collection.find(new BasicDBObject("url", matchingResponse.getUrl()));
-        Object id;
-        if (offerIdCursor.hasNext()) {
-            id = offerIdCursor.next().get("_id");
-            System.out.println(id.toString());
-            return id.toString(); }
-        if (urlCursor.hasNext()) {
-            id = urlCursor.next().get("_id");
-            System.out.println(id);
-            return id.toString(); }
+    private MatchingResponse convertDBObjectToMatchingResponse(DBObject matchingResponseDbObject){
+        if (matchingResponseDbObject != null) {
+            return getMongoTemplate().getConverter().read(MatchingResponse.class, matchingResponseDbObject);
+        }
         return null;
+    }
+
+    // actions
+    private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
+        String id = searchIdByOfferId(collection, matchingResponse.getOfferId());
+        if (id != null) { return id; }
+        return searchIdByUrl(collection, matchingResponse.getUrl());
     }
 
     private DBCollection getCollectionForShop(long shopId){
         return getMongoTemplate().getCollection(Long.toString(shopId));
     }
+
+    private DBObject searchByIdentifier(DBCollection collection, String identifier, Object value){
+        DBCursor cursor = collection.find(new BasicDBObject(identifier, value));
+        if (cursor.size() == 1) {
+            DBObject dbObject = cursor.next();
+            if (dbObject.get(identifier).equals(value)) {
+                return dbObject;
+            }
+        }
+        return null;
+    }
+
+    private String searchIdByOfferId(DBCollection collection, Number offerId) {
+        DBObject response = searchByIdentifier(collection, "offerId", offerId);
+        if (response != null) { return response.get("_id").toString(); }
+        return null;
+    }
+
+    private String searchIdByUrl(DBCollection collection, String url) {
+        DBObject response = searchByIdentifier(collection, "url", url);
+        if (response != null) { return response.get("_id").toString(); }
+        return null;
+    }
+
 }

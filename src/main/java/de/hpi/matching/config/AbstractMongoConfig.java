@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -12,19 +13,20 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import java.util.Arrays;
 
+@Getter(AccessLevel.PRIVATE) @Setter
 public abstract class AbstractMongoConfig {
 
-    @Setter(AccessLevel.PUBLIC) String host, database, username;
-    @Setter(AccessLevel.PUBLIC) char[] password;
-    @Setter(AccessLevel.PUBLIC) int port;
+    String host, database, username;
+    char[] password;
+    int port;
 
     // convenience
     public MongoDbFactory mongoDbFactory() throws Exception {
-        ServerAddress serverAddress = new ServerAddress(host, port);
-        MongoCredential credential = MongoCredential.createCredential(username, database, password);
-        return new SimpleMongoDbFactory(new MongoClient(serverAddress, Arrays.asList(credential)), database);
+        ServerAddress serverAddress = new ServerAddress(getHost(), getPort());
+        MongoCredential credential = MongoCredential.createCredential(getUsername(), getDatabase(), getPassword());
+        return new SimpleMongoDbFactory(new MongoClient(serverAddress, Arrays.asList(credential)), getDatabase());
     }
 
-    abstract public MongoTemplate getMongoTemplate() throws Exception;
+    public abstract MongoTemplate getMongoTemplate() throws Exception;
 }
 

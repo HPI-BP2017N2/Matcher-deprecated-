@@ -1,11 +1,12 @@
 package de.hpi.matching.repo;
 
 import de.hpi.restclient.dto.MatchingResponse;
-import org.springframework.stereotype.Repository;
 
 
 public interface MatchingResultsRepository {
 
-    void saveMatchingResponse(MatchingResponse matchingResponse);
+    void save(MatchingResponse matchingResponse);
+
+    MatchingResponse searchByUrl(long shopId, String url);
 
 }
