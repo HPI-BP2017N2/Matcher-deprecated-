@@ -30,7 +30,10 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
         DBCollection collection = getCollectionForShop(shopId);
         DBObject firstOffer = collection.findOne();
         collection.remove(firstOffer);
-        return convertDBObjectToParsedOffer(firstOffer);
+        if (firstOffer.get("shopId") != null) {
+            return convertDBObjectToParsedOffer(firstOffer);
+        }
+        return null;
     }
 
     // conversion

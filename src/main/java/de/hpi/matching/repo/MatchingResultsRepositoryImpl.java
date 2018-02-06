@@ -2,6 +2,7 @@ package de.hpi.matching.repo;
 
 import com.mongodb.*;
 import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.dto.ParsedOffer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     @Qualifier(value = "matchingResultTemplate")
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MongoTemplate mongoTemplate;
 
+    // convenience
     @Override
     public void save(MatchingResponse matchingResponse) {
         DBCollection collection = getCollectionForShop(matchingResponse.getShopId().longValue());
@@ -42,7 +44,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     }
 
     private MatchingResponse convertDBObjectToMatchingResponse(DBObject matchingResponseDbObject){
-        if (matchingResponseDbObject!= null) {
+        if (matchingResponseDbObject != null) {
             return getMongoTemplate().getConverter().read(MatchingResponse.class, matchingResponseDbObject);
         }
         return null;
@@ -50,11 +52,9 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
 
     // actions
     private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
-        DBObject offerIdResponse = searchByIdentifier(collection, "offerId", matchingResponse.getOfferId());
-        DBObject urlResponse = searchByIdentifier(collection, "url", matchingResponse.getUrl());
-        if (offerIdResponse != null) { return offerIdResponse.get("_id").toString(); }
-        if (urlResponse != null) { return urlResponse.get("_id").toString(); }
-        return null;
+        String id = searchIdByOfferId(collection, matchingResponse.getOfferId());
+        if (id != null) { return id; }
+        return searchIdByUrl(collection, matchingResponse.getUrl());
     }
 
     private DBCollection getCollectionForShop(long shopId){
@@ -71,4 +71,17 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         }
         return null;
     }
+
+    private String searchIdByOfferId(DBCollection collection, Number offerId) {
+        DBObject response = searchByIdentifier(collection, "offerId", offerId);
+        if (response != null) { return response.get("_id").toString(); }
+        return null;
+    }
+
+    private String searchIdByUrl(DBCollection collection, String url) {
+        DBObject response = searchByIdentifier(collection, "url", url);
+        if (response != null) { return response.get("_id").toString(); }
+        return null;
+    }
+
 }

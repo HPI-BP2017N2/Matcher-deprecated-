@@ -13,11 +13,12 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import java.util.Arrays;
 
+@Getter(AccessLevel.PRIVATE) @Setter
 public abstract class AbstractMongoConfig {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PUBLIC) String host, database, username;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PUBLIC) char[] password;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PUBLIC) int port;
+    String host, database, username;
+    char[] password;
+    int port;
 
     // convenience
     public MongoDbFactory mongoDbFactory() throws Exception {
@@ -26,6 +27,6 @@ public abstract class AbstractMongoConfig {
         return new SimpleMongoDbFactory(new MongoClient(serverAddress, Arrays.asList(credential)), getDatabase());
     }
 
-    abstract public MongoTemplate getMongoTemplate() throws Exception;
+    public abstract MongoTemplate getMongoTemplate() throws Exception;
 }
 

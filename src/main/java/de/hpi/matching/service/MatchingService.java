@@ -31,9 +31,10 @@ public class MatchingService {
 
     // convenience
     public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        if(isInDatabaseAndIdealoOffer(offer)) {
+        if(isInDatabase(offer) && isIdealoOffer(offer)) {
             return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl());
         }
+
         return getMatching().match(offer);
     }
 
@@ -42,7 +43,7 @@ public class MatchingService {
         MatchingResponse response;
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
-            if (isInDatabaseAndIdealoOffer(offer)) {
+            if (isInDatabase(offer) && isIdealoOffer(offer)) {
                 continue;
             }
             response = getMatching().match(offer);
@@ -52,10 +53,6 @@ public class MatchingService {
     }
 
     // conditionals
-    private boolean isInDatabaseAndIdealoOffer(ParsedOffer offer) {
-        return isInDatabase(offer) && isIdealoOffer(offer);
-    }
-
     private boolean isInDatabase(ParsedOffer offer) {
         return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()) != null;
     }
