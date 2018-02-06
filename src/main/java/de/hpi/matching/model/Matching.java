@@ -11,16 +11,16 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-
+@Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE)
 public class Matching {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private OfferMatchingRepository repo;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private ArrayList<MatchStrategy> strategies;
+    private OfferMatchingRepository repo;
+    private ArrayList<MatchStrategy> strategies;
 
     // initialization
     public Matching (OfferMatchingRepository repo) {
         setRepo(repo);
-        setStrategies(new ArrayList<MatchStrategy>());
+        setStrategies(new ArrayList<>());
         getStrategies().add(new MatchEan(getRepo()));
         getStrategies().add(new MatchHan(getRepo()));
         getStrategies().add(new MatchSku(getRepo()));

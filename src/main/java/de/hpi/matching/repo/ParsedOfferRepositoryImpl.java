@@ -29,10 +29,10 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
     public ParsedOffer popOffer(long shopId) {
         DBCollection collection = getCollectionForShop(shopId);
         DBObject firstOffer = collection.findOne();
-        collection.remove(firstOffer);
         if (firstOffer.get("shopId") != null) {
             return convertDBObjectToParsedOffer(firstOffer);
         }
+        collection.remove(firstOffer);
         return null;
     }
 

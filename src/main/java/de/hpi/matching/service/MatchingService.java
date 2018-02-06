@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE)
 public class MatchingService {
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private OfferMatchingRepository repo;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private Matching matching;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private ParsedOfferRepository parsedOfferRepository;
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingResultsRepository matchingResultsRepository;
+    private OfferMatchingRepository repo;
+    private Matching matching;
+    private ParsedOfferRepository parsedOfferRepository;
+    private MatchingResultsRepository matchingResultsRepository;
 
     // initialization
     @Autowired

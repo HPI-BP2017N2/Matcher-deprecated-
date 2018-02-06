@@ -1,8 +1,10 @@
 package de.hpi.matching.repo;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import de.hpi.restclient.dto.MatchingResponse;
-import de.hpi.restclient.dto.ParsedOffer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

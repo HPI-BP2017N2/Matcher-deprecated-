@@ -17,11 +17,13 @@ public class MatchingController {
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private MatchingService service;
 
 
+    // initialization
     @Autowired
     public MatchingController(MatchingService service){
         setService(service);
     }
 
+    // convenience
     @RequestMapping(value = "/matcher/match", method = RequestMethod.POST, produces = "application/json")
     public MatchingResponse startMatchingSingleOffer(@RequestBody ParsedOffer parsedOffer){
         return getService().matchSingleOffer(parsedOffer);

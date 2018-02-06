@@ -1,7 +1,6 @@
 package de.hpi.matching.repo;
 
 import de.hpi.restclient.clients.BPBridgeClient;
-import de.hpi.restclient.dto.MatchAttributeResponse;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -37,15 +36,9 @@ public class OfferMatchingRepository {
     }
 
     public List<Offer> searchOfferTitle(long shopId, String offerTitle){
-        /*
-            TO DO: fix search for Map objects instead of String
-         */
-
         HashMap<String, String> title = new HashMap<>();
         title.put("0", offerTitle);
-        String titleString = "{ \"0\" : \"" + offerTitle + "\" }";
-
-        return searchByAttribute(shopId, "offerTitle", titleString);
+        return searchByAttribute(shopId, "offerTitle", title.toString());
     }
 
     // actions
