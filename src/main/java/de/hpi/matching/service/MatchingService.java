@@ -35,7 +35,6 @@ public class MatchingService {
         if(isInDatabase(offer) && isIdealoOffer(offer)) {
             return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl());
         }
-
         return getMatching().match(offer);
     }
 

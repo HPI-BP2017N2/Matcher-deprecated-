@@ -4,6 +4,8 @@ import de.hpi.matching.model.strategies.*;
 import de.hpi.matching.repo.OfferMatchingRepository;
 import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
+import de.hpi.restclient.dto.SuccessfulMatchingResponse;
+import de.hpi.restclient.dto.UnsuccessfulMatchingResponse;
 import de.hpi.restclient.pojo.Offer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,10 +36,10 @@ public class Matching {
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(offer);
             if(match != null){
-                return new MatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
+                return new SuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
             }
         }
 
-        return new MatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
+        return new UnsuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
     }
 }
