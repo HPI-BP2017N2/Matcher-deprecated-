@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.pojo.MatchingResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

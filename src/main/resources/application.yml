@@ -5,7 +5,6 @@ bpbridge:
  matchAttributeRoute: '/matchAttribute'
  cleanURLRoute: '/cleanURL'
 
-
 server:
  port: ${MATCHER_PORT}
 
@@ -24,3 +23,10 @@ matchingResults:
   username: ${MONGO_MATCHER_USER}
   password: ${MONGO_MATCHER_PW}
   database: matchingResults
+
+urlcleaner:
+  root: 123
+  cleanURLRoute: '/clean'
+shoprulesgenerator:
+  root: 123
+  get-rules-route: '/'

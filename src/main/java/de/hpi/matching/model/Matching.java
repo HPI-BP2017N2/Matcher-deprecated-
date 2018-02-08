@@ -2,11 +2,11 @@ package de.hpi.matching.model;
 
 import de.hpi.matching.model.strategies.*;
 import de.hpi.matching.repo.OfferMatchingRepository;
-import de.hpi.restclient.dto.MatchingResponse;
 import de.hpi.restclient.dto.ParsedOffer;
-import de.hpi.restclient.dto.SuccessfulMatchingResponse;
-import de.hpi.restclient.dto.UnsuccessfulMatchingResponse;
+import de.hpi.restclient.pojo.MatchingResponse;
 import de.hpi.restclient.pojo.Offer;
+import de.hpi.restclient.pojo.SuccessfulMatchingResponse;
+import de.hpi.restclient.pojo.UnsuccessfulMatchingResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

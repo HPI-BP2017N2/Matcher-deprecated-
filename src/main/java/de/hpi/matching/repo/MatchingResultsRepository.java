@@ -1,6 +1,6 @@
 package de.hpi.matching.repo;
 
-import de.hpi.restclient.dto.MatchingResponse;
+import de.hpi.restclient.pojo.MatchingResponse;
 
 
 public interface MatchingResultsRepository {
