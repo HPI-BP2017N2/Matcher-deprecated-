@@ -8,4 +8,5 @@ public interface MatchStrategy {
 
     // convenience
     Offer match(ParsedOffer offer);
+    String getMatchReason();
 }

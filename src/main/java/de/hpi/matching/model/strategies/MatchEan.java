@@ -13,7 +13,7 @@ public class MatchEan implements MatchStrategy {
 
     @Getter(AccessLevel.PRIVATE)
     @Setter(AccessLevel.PRIVATE)
-    private static OfferMatchingRepository repo;
+    private OfferMatchingRepository repo;
 
     // initialization
     public MatchEan(OfferMatchingRepository repo) {
@@ -32,4 +32,10 @@ public class MatchEan implements MatchStrategy {
 
         return null;
     }
+
+    @Override
+    public String getMatchReason() {
+        return "EAN";
+    }
+
 }

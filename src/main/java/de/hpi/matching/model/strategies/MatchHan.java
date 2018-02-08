@@ -13,7 +13,7 @@ public class MatchHan implements MatchStrategy {
 
     @Getter(AccessLevel.PRIVATE)
     @Setter(AccessLevel.PRIVATE)
-    private static OfferMatchingRepository repo;
+    private OfferMatchingRepository repo;
 
     // initialization
     public MatchHan(OfferMatchingRepository repo) {
@@ -31,5 +31,10 @@ public class MatchHan implements MatchStrategy {
         }
 
         return null;
+    }
+
+    @Override
+    public String getMatchReason() {
+        return "HAN";
     }
 }

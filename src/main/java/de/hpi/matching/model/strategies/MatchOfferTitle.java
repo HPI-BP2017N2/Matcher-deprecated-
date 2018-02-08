@@ -13,7 +13,7 @@ public class MatchOfferTitle implements MatchStrategy {
 
     @Getter(AccessLevel.PRIVATE)
     @Setter(AccessLevel.PRIVATE)
-    private static OfferMatchingRepository repo;
+    private OfferMatchingRepository repo;
 
     // initialization
     public MatchOfferTitle(OfferMatchingRepository repo) {
@@ -31,5 +31,10 @@ public class MatchOfferTitle implements MatchStrategy {
         }
 
         return null;
+    }
+
+    @Override
+    public String getMatchReason() {
+        return "offerTitle";
     }
 }

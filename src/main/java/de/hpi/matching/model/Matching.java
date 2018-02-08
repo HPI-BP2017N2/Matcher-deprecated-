@@ -10,6 +10,7 @@ import de.hpi.restclient.pojo.UnsuccessfulMatchingResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class Matching {
 
     private OfferMatchingRepository repo;
     private ArrayList<MatchStrategy> strategies;
+    private static Logger logger = Logger.getRootLogger();
+
 
     // initialization
     public Matching (OfferMatchingRepository repo) {
@@ -27,19 +30,21 @@ public class Matching {
         getStrategies().add(new MatchHan(getRepo()));
         getStrategies().add(new MatchSku(getRepo()));
         getStrategies().add(new MatchOfferTitle(getRepo()));
+        getStrategies().add(new MatchUnspecificAttributes(getRepo(), 2));
     }
 
     // convenience
     public MatchingResponse match(ParsedOffer offer){
         Offer match;
-
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(offer);
             if(match != null){
+                logger.info("Match found for \"" + match.getOfferTitle().get("0") + "\" with field(s) " + strategy.getMatchReason() + ".");
                 return new SuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
             }
         }
 
+        logger.info("No match found for article \"" + offer.getOfferTitle() + "\" with price " + offer.getPrice() + " on the URL " + offer.getUrl());
         return new UnsuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
     }
 }
