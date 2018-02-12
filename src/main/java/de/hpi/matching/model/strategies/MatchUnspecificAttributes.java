@@ -23,7 +23,7 @@ public class MatchUnspecificAttributes implements MatchStrategy{
     // initialization
     public MatchUnspecificAttributes(OfferMatchingRepository repo, int threshold) {
         setRepo(repo);
-        setOfferIdCount(new HashMap<>());
+        cleanOffers();
         setMatchingThreshold(threshold);
     }
 
@@ -34,9 +34,10 @@ public class MatchUnspecificAttributes implements MatchStrategy{
         countOfferIDs();
 
         Offer result = pickBestMatchingOffer(offer.getShopId());
-        setOfferIdCount(new HashMap<>());
+        cleanOffers();
         return result;
     }
+
 
     @Override
     public String getMatchReason() {
@@ -48,6 +49,10 @@ public class MatchUnspecificAttributes implements MatchStrategy{
         setCategoryOffers(getRepo().searchCategory(offer.getShopId(), offer.getCategoryString()));
         setBrandOffers(getRepo().searchBrand(offer.getShopId(),offer.getBrand()));
         setDescriptionOffers(getRepo().searchDescription(offer.getShopId(), offer.getDescription()));
+    }
+
+    private void cleanOffers() {
+        setOfferIdCount(new HashMap<>());
     }
 
     private void countOfferIDs() {
