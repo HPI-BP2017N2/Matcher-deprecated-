@@ -8,9 +8,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class OfferMatchingRepository {
@@ -64,4 +62,5 @@ public class OfferMatchingRepository {
     private List<Offer> searchByMapAttribute(long shopId, String attribute, String value) {
         return getClient().matchAttributeWithMap(shopId, attribute, value).getOffers();
     }
+
 }
