@@ -40,7 +40,11 @@ public class RabbitReceiver {
         }
 
         if(shop != null) {
-            getController().startMatchingOffersForShop(shop.getShopId());
+            try {
+                getController().startMatchingOffersForShop(shop.getShopId());
+            } catch(NullPointerException e) {
+                System.out.println("was null");
+            }
         }
     }
 }

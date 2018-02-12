@@ -43,9 +43,10 @@ public class MatchingService {
         MatchingResponse response;
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
-            if (isInDatabase(offer) && isIdealoOffer(offer)) {
+            if(isInDatabase(offer) && isIdealoOffer(offer)) {
                 continue;
             }
+
             response = getMatching().match(offer);
             getMatchingResultsRepository().save(response);
         } while (offer != null);

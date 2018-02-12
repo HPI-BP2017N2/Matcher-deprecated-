@@ -21,7 +21,7 @@ public class RabbitConfig {
 
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private RabbitReceiver receiver;
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE) private RabbitTemplate template;
-    @Getter(AccessLevel.PRIVATE) private static final String QEUE_NAME = "matchingDoneMessages";
+    @Getter(AccessLevel.PRIVATE) private static final String QUEUE_NAME = "matchingDoneMessages";
 
     @Autowired
     public RabbitConfig(RabbitReceiver receiver, RabbitTemplate template) {
@@ -33,14 +33,14 @@ public class RabbitConfig {
     Queue queue() {
         Map<String, Object> args = new HashMap<>();
         args.put("x-overflow", "reject-publish");
-        return new Queue(getQEUE_NAME(), true, false, false, args);
+        return new Queue(getQUEUE_NAME(), true, false, false, args);
     }
 
     @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(getQEUE_NAME());
+        container.setQueueNames(getQUEUE_NAME());
         container.setMessageListener(listenerAdapter);
         return container;
     }
