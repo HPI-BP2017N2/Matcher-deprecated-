@@ -39,12 +39,6 @@ public class RabbitReceiver {
             e.printStackTrace();
         }
 
-        if(shop != null) {
-            try {
-                getController().startMatchingOffersForShop(shop.getShopId());
-            } catch(NullPointerException e) {
-                System.out.println("was null");
-            }
-        }
+        if(shop != null) getController().startMatchingOffersForShop(shop.getShopId());
     }
 }
