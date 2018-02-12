@@ -31,11 +31,11 @@ public class MatchUnspecificAttributes implements MatchStrategy{
     @Override
     public Offer match(ParsedOffer offer) {
         fetchMatchingOffers(offer);
-        countOfferIDs(getBrandOffers());
-        countOfferIDs(getDescriptionOffers());
-        countOfferIDs(getCategoryOffers());
+        countOfferIDs();
 
-        return pickBestMatchingOffer(offer.getShopId());
+        Offer result = pickBestMatchingOffer(offer.getShopId());
+        setOfferIdCount(new HashMap<>());
+        return result;
     }
 
     @Override
@@ -48,6 +48,12 @@ public class MatchUnspecificAttributes implements MatchStrategy{
         setCategoryOffers(getRepo().searchCategory(offer.getShopId(), offer.getCategoryString()));
         setBrandOffers(getRepo().searchBrand(offer.getShopId(),offer.getBrand()));
         setDescriptionOffers(getRepo().searchDescription(offer.getShopId(), offer.getDescription()));
+    }
+
+    private void countOfferIDs() {
+        countOfferIDs(getBrandOffers());
+        countOfferIDs(getDescriptionOffers());
+        countOfferIDs(getCategoryOffers());
     }
 
     private void countOfferIDs(List<Offer> offers) {
@@ -81,4 +87,5 @@ public class MatchUnspecificAttributes implements MatchStrategy{
         if(highestOccurrence >= getMatchingThreshold()) return bestOfferId;
         return null;
     }
+
 }
