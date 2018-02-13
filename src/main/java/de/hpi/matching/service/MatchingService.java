@@ -43,13 +43,12 @@ public class MatchingService {
         MatchingResponse response;
         do {
             offer = getParsedOfferRepository().popOffer(shopId);
-            if (isInDatabase(offer) && isIdealoOffer(offer)) {
-                continue;
-            }
+
+            if (offer == null || isInDatabase(offer) && isIdealoOffer(offer)) continue;
             response = getMatching().match(offer);
             getMatchingResultsRepository().save(response);
-        } while (offer != null);
 
+        } while (offer != null);
     }
 
     // conditionals

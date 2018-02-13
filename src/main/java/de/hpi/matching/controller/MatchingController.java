@@ -32,4 +32,5 @@ public class MatchingController {
     public void startMatchingOffersForShop(long shopId){
         getService().matchOffersForShop(shopId);
     }
+
 }

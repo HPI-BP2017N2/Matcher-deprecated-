@@ -19,7 +19,7 @@ public class Matching {
 
     private OfferMatchingRepository repo;
     private ArrayList<MatchStrategy> strategies;
-    private static Logger logger = Logger.getRootLogger();
+    private Logger logger = Logger.getRootLogger();
 
 
     // initialization
@@ -39,12 +39,12 @@ public class Matching {
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(offer);
             if(match != null){
-                logger.info("Match found for \"" + match.getOfferTitle().get("0") + "\" with field(s) " + strategy.getMatchReason() + ".");
+                getLogger().info("Match found for \"" + match.getOfferTitle().get("0") + "\" with field(s) " + strategy.getMatchReason() + ".");
                 return new SuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
             }
         }
 
-        logger.info("No match found for article \"" + offer.getOfferTitle() + "\" with price " + offer.getPrice() + " on the URL " + offer.getUrl());
+        getLogger().info("No match found for article \"" + offer.getOfferTitle() + "\" with price " + offer.getPrice() + " on the URL " + offer.getUrl());
         return new UnsuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
     }
 }

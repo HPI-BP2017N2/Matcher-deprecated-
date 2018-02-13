@@ -55,7 +55,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     // actions
     private String searchResponseId(DBCollection collection, MatchingResponse matchingResponse) {
         String id = searchIdByOfferId(collection, matchingResponse.getOfferId());
-        if (id != null) { return id; }
+        if(id != null) { return id; }
         return searchIdByUrl(collection, matchingResponse.getUrl());
     }
 
@@ -65,7 +65,7 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
 
     private DBObject searchByIdentifier(DBCollection collection, String identifier, Object value){
         DBCursor cursor = collection.find(new BasicDBObject(identifier, value));
-        if (cursor.size() == 1) {
+        if(cursor.size() == 1) {
             DBObject dbObject = cursor.next();
             if (dbObject.get(identifier).equals(value)) {
                 return dbObject;
@@ -75,14 +75,15 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     }
 
     private String searchIdByOfferId(DBCollection collection, Number offerId) {
+        if(offerId == null) return null;
         DBObject response = searchByIdentifier(collection, "offerId", offerId);
-        if (response != null) { return response.get("_id").toString(); }
+        if(response != null) { return response.get("_id").toString(); }
         return null;
     }
 
     private String searchIdByUrl(DBCollection collection, String url) {
         DBObject response = searchByIdentifier(collection, "url", url);
-        if (response != null) { return response.get("_id").toString(); }
+        if(response != null) { return response.get("_id").toString(); }
         return null;
     }
 
