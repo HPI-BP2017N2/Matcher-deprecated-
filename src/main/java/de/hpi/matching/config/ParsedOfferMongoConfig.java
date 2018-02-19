@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 @ConfigurationProperties(prefix = "parsedOffers.mongodb")
-public class CommonMongoConfig extends AbstractMongoConfig {
+public class ParsedOfferMongoConfig extends AbstractMongoConfig {
 
     @Primary
     @Override

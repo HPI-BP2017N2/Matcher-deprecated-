@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 @ConfigurationProperties(prefix = "matchingResults.mongodb")
-public class SecondaryMongoConfig extends  AbstractMongoConfig{
+public class MatchingResultMongoConfig extends  AbstractMongoConfig{
 
     @Override
     public @Bean(name = "matchingResultTemplate")
