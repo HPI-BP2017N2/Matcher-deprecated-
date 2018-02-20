@@ -28,4 +28,3 @@ public abstract class AbstractMongoConfig {
 
     public abstract MongoTemplate getMongoTemplate() throws Exception;
 }
-
