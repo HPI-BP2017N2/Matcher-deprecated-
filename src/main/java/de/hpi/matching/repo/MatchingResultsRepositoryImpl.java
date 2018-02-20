@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Repository
 public class MatchingResultsRepositoryImpl implements MatchingResultsRepository {
 
@@ -60,6 +62,9 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
     }
 
     private DBCollection getCollectionForShop(long shopId){
+        if(!collectionExists(shopId)) {
+            createCollection(shopId);
+        }
         return getMongoTemplate().getCollection(Long.toString(shopId));
     }
 
@@ -85,6 +90,16 @@ public class MatchingResultsRepositoryImpl implements MatchingResultsRepository 
         DBObject response = searchByIdentifier(collection, "url", url);
         if(response != null) { return response.get("_id").toString(); }
         return null;
+    }
+
+    private void createCollection(long shopId) {
+        getMongoTemplate().createCollection(Long.toString(shopId));
+    }
+
+    // conditional
+    private boolean collectionExists(long shopId) {
+        Set<String> collections = getMongoTemplate().getCollectionNames();
+        return collections.contains(Long.toString(shopId));
     }
 
 }
