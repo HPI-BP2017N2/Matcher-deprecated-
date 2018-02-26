@@ -1,4 +1,4 @@
-package de.hpi.matching.model;
+/*package de.hpi.matching.model;
 
 import de.hpi.matching.repo.OfferMatchingRepository;
 import de.hpi.restclient.dto.ParsedOffer;
@@ -118,3 +118,4 @@ class MatchingTest {
         return offerConstruction.constructOfferParameter(brand, categoryString, description, offerTitle, sku, han, ean);
     }
 }
+*/

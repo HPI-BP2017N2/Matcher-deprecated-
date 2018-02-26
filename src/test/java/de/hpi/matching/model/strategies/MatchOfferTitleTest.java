@@ -1,4 +1,4 @@
-package de.hpi.matching.model.strategies;
+/*package de.hpi.matching.model.strategies;
 
 import de.hpi.matching.model.OfferConstruction;
 import de.hpi.matching.repo.OfferMatchingRepository;
@@ -52,4 +52,4 @@ class MatchOfferTitleTest {
 
         assertEquals(null, responseOffer);
     }
-}
+}*/

@@ -1,4 +1,4 @@
-package de.hpi.matching.model;
+/*package de.hpi.matching.model;
 
 import de.hpi.restclient.dto.ParsedOffer;
 import de.hpi.restclient.pojo.Offer;
@@ -65,4 +65,4 @@ public class OfferConstruction {
         testOffer.setEan(ean);
         return testOffer;
     }
-}
+}*/
