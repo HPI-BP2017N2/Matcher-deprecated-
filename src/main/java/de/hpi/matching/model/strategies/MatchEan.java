@@ -1,6 +1,7 @@
 package de.hpi.matching.model.strategies;
 
 import de.hpi.matching.repo.OfferMatchingRepository;
+import de.hpi.restclient.pojo.ExtractedDataEntry;
 import de.hpi.restclient.pojo.ExtractedDataMap;
 import de.hpi.restclient.pojo.Offer;
 import de.hpi.restclient.pojo.OfferAttribute;
@@ -24,9 +25,9 @@ public class MatchEan implements MatchStrategy {
     // convenience
     @Override
     public Offer match(long shopId, ExtractedDataMap extractedDataMap) {
-        String ean = extractedDataMap.getData().get(OfferAttribute.EAN).getValue();
+        ExtractedDataEntry ean = extractedDataMap.getData().get(OfferAttribute.EAN);
         if (ean != null) {
-            List<Offer> response = getRepo().searchEan(shopId, ean);
+            List<Offer> response = getRepo().searchEan(shopId, ean.getValue());
             if (response.size() > 0) {
                 return response.get(0);
             }

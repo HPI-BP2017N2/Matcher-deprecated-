@@ -1,6 +1,7 @@
 package de.hpi.matching.model.strategies;
 
 import de.hpi.matching.repo.OfferMatchingRepository;
+import de.hpi.restclient.pojo.ExtractedDataEntry;
 import de.hpi.restclient.pojo.ExtractedDataMap;
 import de.hpi.restclient.pojo.Offer;
 import de.hpi.restclient.pojo.OfferAttribute;
@@ -31,9 +32,9 @@ public class MatchUnspecificAttributes implements MatchStrategy{
     // convenience
     @Override
     public Offer match(long shopId, ExtractedDataMap extractedDataMap) {
-        String brand = extractedDataMap.getData().get(OfferAttribute.BRAND_SEARCHTEXT).getValue();
-        String category = extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue();
-        String description = extractedDataMap.getData().get(OfferAttribute.DESCRIPTION).getValue();
+        String brand = getExtractedDataMapValue(extractedDataMap, OfferAttribute.BRAND_SEARCHTEXT);
+        String category = getExtractedDataMapValue(extractedDataMap, OfferAttribute.CATEGORY_STRING);
+        String description = getExtractedDataMapValue(extractedDataMap, OfferAttribute.DESCRIPTION);
         fetchMatchingOffers(shopId, brand, category, description);
         countOfferIDs();
 
@@ -63,6 +64,14 @@ public class MatchUnspecificAttributes implements MatchStrategy{
         countOfferIDs(getBrandOffers());
         countOfferIDs(getDescriptionOffers());
         countOfferIDs(getCategoryOffers());
+    }
+
+    private String getExtractedDataMapValue(ExtractedDataMap extractedDataMap, Object attribute) {
+        ExtractedDataEntry entry = extractedDataMap.getData().get(attribute);
+        if(entry != null) {
+            return entry.getValue();
+        }
+        return null;
     }
 
     private void countOfferIDs(List<Offer> offers) {

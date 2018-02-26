@@ -32,6 +32,11 @@ public class Matching {
     // convenience
     public MatchingResponse match(long shopId, ExtractedDataMap extractedDataMap){
         Offer match;
+        String category = null;
+        if (extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING) != null){
+            category = extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue();
+        }
+
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(shopId, extractedDataMap);
             if(match != null){
@@ -40,7 +45,7 @@ public class Matching {
                 return new SuccessfulMatchingResponse(shopId,
                         extractedDataMap.getData().get(OfferAttribute.URL).getValue(),
                         match.getOfferId(),
-                        extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue(),
+                        category,
                         match.getCategoryString());
             }
         }
@@ -51,6 +56,6 @@ public class Matching {
 
         return new UnsuccessfulMatchingResponse(shopId,
                 extractedDataMap.getData().get(OfferAttribute.URL).getValue(),
-                extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue());
+                category);
     }
 }

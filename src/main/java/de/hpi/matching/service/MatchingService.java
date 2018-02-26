@@ -40,8 +40,9 @@ public class MatchingService {
         do {
             extractedDataMap = getParsedOfferRepository().popOffer(shopId);
 
+            if (extractedDataMap == null) continue;
             String url = extractedDataMap.getData().get(OfferAttribute.URL).getValue();
-            if (extractedDataMap == null || isInDatabase(shopId, url) && isIdealoOffer(shopId, url)) continue;
+            if (isInDatabase(shopId, url) && isIdealoOffer(shopId, url)) continue;
             response = getMatching().match(shopId, extractedDataMap);
             getMatchingResultsRepository().save(response);
 

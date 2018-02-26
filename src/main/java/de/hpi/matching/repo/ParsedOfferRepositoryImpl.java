@@ -31,11 +31,8 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
         DBObject firstOffer = collection.findOne();
 
         if(firstOffer != null) {
-            long actualShopId = Double.valueOf(firstOffer.get("shopId").toString()).longValue();
-            if (actualShopId == shopId) {
-                collection.remove(firstOffer);
-                return convertDBObjectToExtractedDataMap(firstOffer);
-            }
+            collection.remove(firstOffer);
+            return convertDBObjectToExtractedDataMap(firstOffer);
         }
         return null;
     }

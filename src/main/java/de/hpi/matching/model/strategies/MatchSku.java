@@ -1,6 +1,7 @@
 package de.hpi.matching.model.strategies;
 
 import de.hpi.matching.repo.OfferMatchingRepository;
+import de.hpi.restclient.pojo.ExtractedDataEntry;
 import de.hpi.restclient.pojo.ExtractedDataMap;
 import de.hpi.restclient.pojo.Offer;
 import de.hpi.restclient.pojo.OfferAttribute;
@@ -24,9 +25,9 @@ public class MatchSku implements MatchStrategy {
     // convenience
     @Override
     public Offer match(long shopId, ExtractedDataMap extractedDataMap) {
-        String sku = extractedDataMap.getData().get(OfferAttribute.SKU).getValue();
+        ExtractedDataEntry sku = extractedDataMap.getData().get(OfferAttribute.SKU);
         if (sku != null) {
-            List<Offer> response = getRepo().searchSku(shopId, sku);
+            List<Offer> response = getRepo().searchSku(shopId, sku.getValue());
             if (response.size() > 0) {
                 return response.get(0);
             }
