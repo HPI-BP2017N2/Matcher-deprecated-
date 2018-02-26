@@ -1,8 +1,9 @@
 package de.hpi.matching.model.strategies;
 
 import de.hpi.matching.repo.OfferMatchingRepository;
-import de.hpi.restclient.dto.ParsedOffer;
+import de.hpi.restclient.pojo.ExtractedDataMap;
 import de.hpi.restclient.pojo.Offer;
+import de.hpi.restclient.pojo.OfferAttribute;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,11 +30,14 @@ public class MatchUnspecificAttributes implements MatchStrategy{
 
     // convenience
     @Override
-    public Offer match(ParsedOffer offer) {
-        fetchMatchingOffers(offer);
+    public Offer match(long shopId, ExtractedDataMap extractedDataMap) {
+        String brand = extractedDataMap.getData().get(OfferAttribute.BRAND_SEARCHTEXT).getValue();
+        String category = extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue();
+        String description = extractedDataMap.getData().get(OfferAttribute.DESCRIPTION).getValue();
+        fetchMatchingOffers(shopId, brand, category, description);
         countOfferIDs();
 
-        Offer result = pickBestMatchingOffer(offer.getShopId());
+        Offer result = pickBestMatchingOffer(shopId);
         cleanOffers();
         return result;
     }
@@ -45,10 +49,10 @@ public class MatchUnspecificAttributes implements MatchStrategy{
     }
 
     // actions
-    private void fetchMatchingOffers(ParsedOffer offer) {
-        setCategoryOffers(getRepo().searchCategory(offer.getShopId(), offer.getCategoryString()));
-        setBrandOffers(getRepo().searchBrand(offer.getShopId(),offer.getBrand()));
-        setDescriptionOffers(getRepo().searchDescription(offer.getShopId(), offer.getDescription()));
+    private void fetchMatchingOffers(long shopId, String brand, String category, String description) {
+        setCategoryOffers(getRepo().searchCategory(shopId, category));
+        setBrandOffers(getRepo().searchBrand(shopId, brand));
+        setDescriptionOffers(getRepo().searchDescription(shopId, description));
     }
 
     private void cleanOffers() {

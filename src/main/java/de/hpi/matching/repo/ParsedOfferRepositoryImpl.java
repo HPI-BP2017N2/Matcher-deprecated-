@@ -2,7 +2,7 @@ package de.hpi.matching.repo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import de.hpi.restclient.dto.ParsedOffer;
+import de.hpi.restclient.pojo.ExtractedDataMap;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,13 +20,13 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
 
     // convenience
     @Override
-    public ParsedOffer getFirstOffer(long shopId) {
+    public ExtractedDataMap getFirstOffer(long shopId) {
         DBCollection collection = getCollectionForShop(shopId);
-        return convertDBObjectToParsedOffer(collection.findOne());
+        return convertDBObjectToExtractedDataMap(collection.findOne());
     }
 
     @Override
-    public ParsedOffer popOffer(long shopId) {
+    public ExtractedDataMap popOffer(long shopId) {
         DBCollection collection = getCollectionForShop(shopId);
         DBObject firstOffer = collection.findOne();
 
@@ -34,15 +34,15 @@ public class ParsedOfferRepositoryImpl implements ParsedOfferRepository {
             long actualShopId = Double.valueOf(firstOffer.get("shopId").toString()).longValue();
             if (actualShopId == shopId) {
                 collection.remove(firstOffer);
-                return convertDBObjectToParsedOffer(firstOffer);
+                return convertDBObjectToExtractedDataMap(firstOffer);
             }
         }
         return null;
     }
 
     // conversion
-    private ParsedOffer convertDBObjectToParsedOffer(DBObject parsedOfferDbObject) {
-        return getMongoTemplate().getConverter().read(ParsedOffer.class, parsedOfferDbObject);
+    private ExtractedDataMap convertDBObjectToExtractedDataMap(DBObject extractedDataMapDbObject) {
+        return getMongoTemplate().getConverter().read(ExtractedDataMap.class, extractedDataMapDbObject);
     }
 
     // actions

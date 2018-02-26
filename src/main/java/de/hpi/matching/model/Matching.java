@@ -2,11 +2,7 @@ package de.hpi.matching.model;
 
 import de.hpi.matching.model.strategies.*;
 import de.hpi.matching.repo.OfferMatchingRepository;
-import de.hpi.restclient.dto.ParsedOffer;
-import de.hpi.restclient.pojo.MatchingResponse;
-import de.hpi.restclient.pojo.Offer;
-import de.hpi.restclient.pojo.SuccessfulMatchingResponse;
-import de.hpi.restclient.pojo.UnsuccessfulMatchingResponse;
+import de.hpi.restclient.pojo.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,17 +30,27 @@ public class Matching {
     }
 
     // convenience
-    public MatchingResponse match(ParsedOffer offer){
+    public MatchingResponse match(long shopId, ExtractedDataMap extractedDataMap){
         Offer match;
         for(MatchStrategy strategy : getStrategies()){
-            match = strategy.match(offer);
+            match = strategy.match(shopId, extractedDataMap);
             if(match != null){
                 getLogger().info("Match found for \"" + match.getOfferTitle().get("0") + "\" with field(s) " + strategy.getMatchReason() + ".");
-                return new SuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), match.getOfferId(), offer.getCategoryString(), match.getCategoryString());
+
+                return new SuccessfulMatchingResponse(shopId,
+                        extractedDataMap.getData().get(OfferAttribute.URL).getValue(),
+                        match.getOfferId(),
+                        extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue(),
+                        match.getCategoryString());
             }
         }
 
-        getLogger().info("No match found for article \"" + offer.getOfferTitle() + "\" with price " + offer.getPrice() + " on the URL " + offer.getUrl());
-        return new UnsuccessfulMatchingResponse(offer.getShopId(), offer.getUrl(), offer.getCategoryString());
+        getLogger().info("No match found for article \"" + extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE).getValue()
+                + "\" with price " + extractedDataMap.getData().get(OfferAttribute.PRICE).getValue()
+                + " on the URL " + extractedDataMap.getData().get(OfferAttribute.URL).getValue());
+
+        return new UnsuccessfulMatchingResponse(shopId,
+                extractedDataMap.getData().get(OfferAttribute.URL).getValue(),
+                extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue());
     }
 }

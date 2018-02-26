@@ -1,12 +1,12 @@
 package de.hpi.matching.repo;
 
 
-import de.hpi.restclient.dto.ParsedOffer;
+import de.hpi.restclient.pojo.ExtractedDataMap;
 
 public interface ParsedOfferRepository {
 
-    ParsedOffer getFirstOffer(long shopId);
+    ExtractedDataMap getFirstOffer(long shopId);
 
-    ParsedOffer popOffer(long shopId);
+    ExtractedDataMap popOffer(long shopId);
 
 }

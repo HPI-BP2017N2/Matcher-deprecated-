@@ -4,8 +4,9 @@ import de.hpi.matching.model.Matching;
 import de.hpi.matching.repo.MatchingResultsRepository;
 import de.hpi.matching.repo.OfferMatchingRepository;
 import de.hpi.matching.repo.ParsedOfferRepository;
-import de.hpi.restclient.dto.ParsedOffer;
+import de.hpi.restclient.pojo.ExtractedDataMap;
 import de.hpi.restclient.pojo.MatchingResponse;
+import de.hpi.restclient.pojo.OfferAttribute;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,9 @@ public class MatchingService {
 
     // initialization
     @Autowired
-    public MatchingService (OfferMatchingRepository repository, ParsedOfferRepository parsedOfferRepository, MatchingResultsRepository matchingResultsRepository){
+    public MatchingService (OfferMatchingRepository repository,
+                            ParsedOfferRepository parsedOfferRepository,
+                            MatchingResultsRepository matchingResultsRepository){
         setRepo(repository);
         setMatchingResultsRepository(matchingResultsRepository);
         setParsedOfferRepository(parsedOfferRepository);
@@ -31,32 +34,26 @@ public class MatchingService {
     }
 
     // convenience
-    public MatchingResponse matchSingleOffer(ParsedOffer offer) {
-        if(isInDatabase(offer) && isIdealoOffer(offer)) {
-            return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl());
-        }
-        return getMatching().match(offer);
-    }
-
     public void matchOffersForShop(long shopId) {
-        ParsedOffer offer;
+        ExtractedDataMap extractedDataMap;
         MatchingResponse response;
         do {
-            offer = getParsedOfferRepository().popOffer(shopId);
+            extractedDataMap = getParsedOfferRepository().popOffer(shopId);
 
-            if (offer == null || isInDatabase(offer) && isIdealoOffer(offer)) continue;
-            response = getMatching().match(offer);
+            String url = extractedDataMap.getData().get(OfferAttribute.URL).getValue();
+            if (extractedDataMap == null || isInDatabase(shopId, url) && isIdealoOffer(shopId, url)) continue;
+            response = getMatching().match(shopId, extractedDataMap);
             getMatchingResultsRepository().save(response);
 
-        } while (offer != null);
+        } while (extractedDataMap != null);
     }
 
     // conditionals
-    private boolean isInDatabase(ParsedOffer offer) {
-        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()) != null;
+    private boolean isInDatabase(long shopId, String url) {
+        return getMatchingResultsRepository().searchByUrl(shopId, url) != null;
     }
 
-    private boolean isIdealoOffer(ParsedOffer offer) {
-        return getMatchingResultsRepository().searchByUrl(offer.getShopId(), offer.getUrl()).isIdealoOffer();
+    private boolean isIdealoOffer(long shopId, String url) {
+        return getMatchingResultsRepository().searchByUrl(shopId, url).isIdealoOffer();
     }
 }
