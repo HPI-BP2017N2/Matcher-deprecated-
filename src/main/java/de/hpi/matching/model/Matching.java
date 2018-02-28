@@ -32,18 +32,7 @@ public class Matching {
     // convenience
     public MatchingResponse match(long shopId, ExtractedDataMap extractedDataMap){
         Offer match;
-        String category = null;
-        String offerTitle = null;
-        String price = null;
-        if (extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING) != null){
-            category = extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue();
-        }
-        if (extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE) != null){
-            offerTitle = extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE).getValue();
-        }
-        if (extractedDataMap.getData().get(OfferAttribute.PRICE) != null){
-            price = extractedDataMap.getData().get(OfferAttribute.PRICE).getValue();
-        }
+        String category = getExtractedDataMapValue(extractedDataMap, OfferAttribute.CATEGORY_STRING);
 
         for(MatchStrategy strategy : getStrategies()){
             match = strategy.match(shopId, extractedDataMap);
@@ -58,6 +47,8 @@ public class Matching {
             }
         }
 
+        String offerTitle = getExtractedDataMapValue(extractedDataMap, OfferAttribute.OFFER_TITLE);
+        String price = getExtractedDataMapValue(extractedDataMap, OfferAttribute.PRICE);
         getLogger().info("No match found for article \"" + offerTitle
                 + "\" with price " + price
                 + " on the URL " + extractedDataMap.getData().get(OfferAttribute.URL).getValue());
@@ -65,5 +56,14 @@ public class Matching {
         return new UnsuccessfulMatchingResponse(shopId,
                 extractedDataMap.getData().get(OfferAttribute.URL).getValue(),
                 category);
+    }
+
+    // actions
+    private String getExtractedDataMapValue(ExtractedDataMap extractedDataMap, Object attribute) {
+        ExtractedDataEntry entry = extractedDataMap.getData().get(attribute);
+        if(entry != null) {
+            return entry.getValue();
+        }
+        return null;
     }
 }
