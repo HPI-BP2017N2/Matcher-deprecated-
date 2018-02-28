@@ -33,8 +33,16 @@ public class Matching {
     public MatchingResponse match(long shopId, ExtractedDataMap extractedDataMap){
         Offer match;
         String category = null;
+        String offerTitle = null;
+        String price = null;
         if (extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING) != null){
             category = extractedDataMap.getData().get(OfferAttribute.CATEGORY_STRING).getValue();
+        }
+        if (extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE) != null){
+            offerTitle = extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE).getValue();
+        }
+        if (extractedDataMap.getData().get(OfferAttribute.PRICE) != null){
+            price = extractedDataMap.getData().get(OfferAttribute.PRICE).getValue();
         }
 
         for(MatchStrategy strategy : getStrategies()){
@@ -50,8 +58,8 @@ public class Matching {
             }
         }
 
-        getLogger().info("No match found for article \"" + extractedDataMap.getData().get(OfferAttribute.OFFER_TITLE).getValue()
-                + "\" with price " + extractedDataMap.getData().get(OfferAttribute.PRICE).getValue()
+        getLogger().info("No match found for article \"" + offerTitle
+                + "\" with price " + price
                 + " on the URL " + extractedDataMap.getData().get(OfferAttribute.URL).getValue());
 
         return new UnsuccessfulMatchingResponse(shopId,

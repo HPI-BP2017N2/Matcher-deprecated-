@@ -38,7 +38,7 @@ public class MatchingService {
         ExtractedDataMap extractedDataMap;
         MatchingResponse response;
         do {
-            extractedDataMap = getParsedOfferRepository().popOffer(shopId);
+            extractedDataMap = getParsedOfferRepository().getFirstOffer(shopId);
 
             if (extractedDataMap == null) continue;
             String url = extractedDataMap.getData().get(OfferAttribute.URL).getValue();
